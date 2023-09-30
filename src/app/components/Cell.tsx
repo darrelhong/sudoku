@@ -1,36 +1,42 @@
 'use client'
 
-import { useAtom } from 'jotai'
+import { useRef } from 'react'
 
-import { cursorAtom } from '@/utils/cursor'
+import { getXYFromIndex, ICell } from '@/utils/game'
 
-export function Cell({ x, y, value }: { x: number; y: number; value: number }) {
-  const [[cursorX, cursorY], setCursor] = useAtom(cursorAtom)
+export function Cell({
+  index,
+  cell,
+  handleKeyUp,
+}: {
+  index: number
+  cell: ICell
+  handleKeyUp: (e: React.KeyboardEvent<HTMLDivElement>, index: number) => void
+}) {
+  const divRef = useRef<HTMLDivElement>(null)
 
   return (
     <div
-      className={`grid aspect-square place-items-center p-0.5 ${getBorderClassName(
-        x,
-        y,
-        cursorX,
-        cursorY,
+      tabIndex={0}
+      ref={divRef}
+      className={`grid aspect-square cursor-pointer place-items-center p-0.5 -outline-offset-2 focus:bg-amber-300 ${getBorderClassName(
+        index,
       )}`}
-      onClick={() => setCursor([x, y])}
+      onClick={() => {
+        divRef.current?.focus()
+      }}
+      onKeyUp={(e) => {
+        handleKeyUp(e, index)
+      }}
     >
-      <button className="grid h-full w-full place-items-center" type="button">
-        <span className="absolute">{value === 0 ? '' : value}</span>
-      </button>
+      <span className="absolute">{cell.value === 0 ? '' : cell.value}</span>
     </div>
   )
 }
 
-const getBorderClassName = (
-  x: number,
-  y: number,
-  cursorX: number,
-  cursorY: number,
-) => {
+const getBorderClassName = (index: number) => {
   let className = ''
+  const { x, y } = getXYFromIndex(index)
 
   if (x > 0) {
     className += ' border-l border-gray-300'
@@ -43,10 +49,6 @@ const getBorderClassName = (
   }
   if (y !== 0 && y % 3 === 0) {
     className += ' border-t-2'
-  }
-
-  if (x === cursorX && y === cursorY) {
-    className += ' bg-amber-300'
   }
 
   return className
