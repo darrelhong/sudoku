@@ -34,7 +34,7 @@ export const newGameAtom = atom(null, async (get, set, puzzleStr: string) => {
     const shouldReset = await confirm(
       'Are you sure you want to start a new game? Current progress will be lost.',
     )
-    if (shouldReset) return
+    if (!shouldReset) return
   }
   set(gridAtom, getGridFromPuzzleString(puzzleStr))
   set(gameDirtyAtom, false)
