@@ -4,7 +4,7 @@ import { useAtom } from 'jotai'
 
 import { cursorAtom } from '@/utils/cursor'
 
-export function Cell({ x, y, value }: { x: number; y: number; value: string }) {
+export function Cell({ x, y, value }: { x: number; y: number; value: number }) {
   const [[cursorX, cursorY], setCursor] = useAtom(cursorAtom)
 
   return (
@@ -18,7 +18,7 @@ export function Cell({ x, y, value }: { x: number; y: number; value: string }) {
       onClick={() => setCursor([x, y])}
     >
       <button className="grid h-full w-full place-items-center" type="button">
-        <span className="absolute">{value === '.' ? '' : value}</span>
+        <span className="absolute">{value === 0 ? '' : value}</span>
       </button>
     </div>
   )
