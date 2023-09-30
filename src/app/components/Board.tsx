@@ -1,3 +1,5 @@
+import { GRID_SIZE } from '@/utils/constants'
+
 import { Cell } from './Cell'
 
 export function Board({ puzzle }: { puzzle: string }) {
@@ -5,8 +7,8 @@ export function Board({ puzzle }: { puzzle: string }) {
     <div className="grid w-full max-w-xl grid-cols-9 rounded-lg bg-white shadow-lg">
       {puzzle.split('').map((value, index) => (
         <Cell
-          x={index % 9}
-          y={Math.floor(index / 9)}
+          x={index % GRID_SIZE}
+          y={Math.floor(index / GRID_SIZE)}
           value={value}
           key={index}
         />
