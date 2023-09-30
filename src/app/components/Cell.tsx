@@ -8,8 +8,8 @@ export function Cell({ x, y, value }: { x: number; y: number; value: string }) {
   const [[cursorX, cursorY], setCursor] = useAtom(cursorAtom)
 
   return (
-    <button
-      className={`grid aspect-square place-items-center p-1 ${getBorderClassName(
+    <div
+      className={`grid aspect-square place-items-center p-0.5 ${getBorderClassName(
         x,
         y,
         cursorX,
@@ -17,8 +17,10 @@ export function Cell({ x, y, value }: { x: number; y: number; value: string }) {
       )}`}
       onClick={() => setCursor([x, y])}
     >
-      <span className="absolute">{value === '.' ? '' : value}</span>
-    </button>
+      <button className="grid h-full w-full place-items-center" type="button">
+        <span className="absolute">{value === '.' ? '' : value}</span>
+      </button>
+    </div>
   )
 }
 
