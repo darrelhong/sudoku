@@ -29,7 +29,13 @@ export function Cell({
         handleKeyUp(e, index)
       }}
     >
-      <span className="absolute">{cell.value === 0 ? '' : cell.value}</span>
+      <span
+        className={`absolute ${
+          !cell.isFixed ? 'font-semibold text-teal-500' : ''
+        }`}
+      >
+        {cell.value === 0 ? '' : cell.value}
+      </span>
     </div>
   )
 }
