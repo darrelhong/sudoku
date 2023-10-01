@@ -4,18 +4,14 @@ import { useAtom } from 'jotai'
 import { useHydrateAtoms } from 'jotai/utils'
 import { useCallback } from 'react'
 
-import {
-  getGridFromPuzzleString,
-  getValueFromKey,
-  gridAtom,
-  updateGridAtom,
-} from '@/utils/game'
+import { gridAtom, gridWithErrorsAtom, updateGridAtom } from '@/utils/game'
+import { getGridFromPuzzleString, getValueFromKey } from '@/utils/helpers'
 
 import { Cell } from './Cell'
 
 export function Board({ initialPuzzle }: { initialPuzzle: string }) {
   useHydrateAtoms([[gridAtom, getGridFromPuzzleString(initialPuzzle)]])
-  const [grid] = useAtom(gridAtom)
+  const [grid] = useAtom(gridWithErrorsAtom)
   const [_, updateGrid] = useAtom(updateGridAtom)
 
   const handleKeyUp = useCallback(
@@ -29,8 +25,8 @@ export function Board({ initialPuzzle }: { initialPuzzle: string }) {
   )
   return (
     <div className="grid w-full max-w-xl grid-cols-9 overflow-hidden rounded-lg bg-white text-xl shadow-lg sm:text-2xl">
-      {grid.map((cell, index) => (
-        <Cell index={index} cell={cell} key={index} handleKeyUp={handleKeyUp} />
+      {grid.map((cell) => (
+        <Cell cell={cell} key={cell.index} handleKeyUp={handleKeyUp} />
       ))}
     </div>
   )

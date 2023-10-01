@@ -1,16 +1,38 @@
 import { atom } from 'jotai'
-import { splitAtom } from 'jotai/utils'
 
 import { GRID_SIZE } from './constants'
+import { getGridFromPuzzleString } from './helpers'
+import { getCellIsInvalid } from './sudoku'
 
-export interface ICell {
+export type ICell = {
   value: number
-  isFixed: boolean
-}
+  index: number
+} & (
+  | {
+      isFixed: true
+    }
+  | {
+      isFixed: false
+      isInvalid?: boolean
+    }
+)
 
 export const gridAtom = atom<ICell[]>(
-  new Array(GRID_SIZE ** 2).fill({ value: 0, isFixed: false }),
+  Array.from({ length: GRID_SIZE * GRID_SIZE }, (_, i) => ({
+    value: 0,
+    index: i,
+    isFixed: false,
+  })),
 )
+
+export const gridWithErrorsAtom = atom((get) => {
+  const grid = get(gridAtom)
+  return grid.map((cell) => ({
+    ...cell,
+    isInvalid:
+      !cell.isFixed && cell.value !== 0 && getCellIsInvalid(cell, grid),
+  }))
+})
 
 export const updateGridAtom = atom(
   null,
@@ -18,11 +40,13 @@ export const updateGridAtom = atom(
     const grid = get(gridAtom)
     const cell = grid[index]
     if (cell.isFixed) return
+
     set(gridAtom, [
       ...grid.slice(0, index),
       { ...cell, value },
       ...grid.slice(index + 1),
     ])
+
     set(gameDirtyAtom, true)
   },
 )
@@ -39,26 +63,3 @@ export const newGameAtom = atom(null, async (get, set, puzzleStr: string) => {
   set(gridAtom, getGridFromPuzzleString(puzzleStr))
   set(gameDirtyAtom, false)
 })
-
-export const getGridFromPuzzleString = (puzzleStr: string) => {
-  return puzzleStr.split('').map((char) => {
-    const value = char === '.' ? 0 : parseInt(char)
-    return {
-      value,
-      isFixed: value !== 0,
-    }
-  })
-}
-
-export const getXYFromIndex = (index: number) => {
-  return {
-    x: index % GRID_SIZE,
-    y: Math.floor(index / GRID_SIZE),
-  }
-}
-
-export const getValueFromKey = (key: string) => {
-  if (key === 'Backspace') return 0
-  if (Array.from('123456789').includes(key)) return parseInt(key)
-  return null
-}
