@@ -12,22 +12,21 @@ export function Cell({
   cell: ICell
   handleKeyUp: (e: React.KeyboardEvent<HTMLDivElement>, index: number) => void
 }) {
-  const divRef = useRef<HTMLDivElement>(null)
+  const inputRef = useRef<HTMLInputElement>(null)
 
   return (
     <div
-      tabIndex={0}
-      ref={divRef}
-      className={`grid aspect-square cursor-pointer place-items-center p-0.5 -outline-offset-2 focus:bg-amber-300 ${getBorderClassName(
+      className={`grid aspect-square cursor-pointer place-items-center focus-within:bg-amber-300 ${getBorderClassName(
         cell.index,
       )}`}
       onClick={() => {
-        divRef.current?.focus()
+        inputRef.current?.focus()
       }}
       onKeyUp={(e) => {
         handleKeyUp(e, cell.index)
       }}
     >
+      <input className="w-0" type="number" ref={inputRef} />
       <span
         className={`absolute ${!cell.isFixed ? 'font-semibold' : ''}  ${
           !cell.isFixed && (cell.isInvalid ? 'text-rose-500' : 'text-teal-500')
