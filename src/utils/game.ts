@@ -51,10 +51,14 @@ export const updateGridAtom = atom(
   },
 )
 
-export const gameDirtyAtom = atom(false)
+const gameDirtyAtom = atom(false)
+
+const gameDirtyAndNotSolvedAtom = atom((get) => {
+  return get(gameDirtyAtom) && !get(gameSolvedAtom)
+})
 
 export const newGameAtom = atom(null, async (get, set, puzzleStr: string) => {
-  if (get(gameDirtyAtom)) {
+  if (get(gameDirtyAndNotSolvedAtom)) {
     const shouldReset = await confirm(
       'Are you sure you want to start a new game? Current progress will be lost.',
     )
