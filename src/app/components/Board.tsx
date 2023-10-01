@@ -2,9 +2,14 @@
 
 import { useAtom } from 'jotai'
 import { useHydrateAtoms } from 'jotai/utils'
-import { useCallback } from 'react'
+import { useCallback, useEffect } from 'react'
 
-import { gridAtom, gridWithErrorsAtom, updateGridAtom } from '@/utils/game'
+import {
+  gameSolvedAtom,
+  gridAtom,
+  gridWithErrorsAtom,
+  updateGridAtom,
+} from '@/utils/game'
 import { getGridFromPuzzleString, getValueFromKey } from '@/utils/helpers'
 
 import { Cell } from './Cell'
@@ -13,6 +18,13 @@ export function Board({ initialPuzzle }: { initialPuzzle: string }) {
   useHydrateAtoms([[gridAtom, getGridFromPuzzleString(initialPuzzle)]])
   const [grid] = useAtom(gridWithErrorsAtom)
   const [_, updateGrid] = useAtom(updateGridAtom)
+  const [solved] = useAtom(gameSolvedAtom)
+
+  useEffect(() => {
+    if (solved) {
+      setTimeout(() => alert('You solved the puzzle!'), 1)
+    }
+  }, [solved])
 
   const handleKeyUp = useCallback(
     (e: React.KeyboardEvent<HTMLDivElement>, index: number) => {
@@ -23,6 +35,7 @@ export function Board({ initialPuzzle }: { initialPuzzle: string }) {
     },
     [updateGrid],
   )
+
   return (
     <div className="grid w-full max-w-xl grid-cols-9 overflow-hidden rounded-lg bg-white text-xl shadow-lg sm:text-2xl">
       {grid.map((cell) => (

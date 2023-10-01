@@ -63,3 +63,8 @@ export const newGameAtom = atom(null, async (get, set, puzzleStr: string) => {
   set(gridAtom, getGridFromPuzzleString(puzzleStr))
   set(gameDirtyAtom, false)
 })
+
+export const gameSolvedAtom = atom((get) => {
+  const gridWithErrors = get(gridWithErrorsAtom)
+  return gridWithErrors.every((cell) => cell.value !== 0 && !cell.isInvalid)
+})
