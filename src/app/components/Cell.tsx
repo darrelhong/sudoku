@@ -1,8 +1,10 @@
 'use client'
 
+import clsx from 'clsx'
 import { useAtom } from 'jotai'
 import { useRef } from 'react'
 
+import { GRID_SIZE_SQRT } from '@/utils/constants'
 import { ICell, showGuidesAtom } from '@/utils/game'
 import { getXYFromIndex } from '@/utils/helpers'
 
@@ -16,11 +18,19 @@ export function Cell({
   const [showGuides] = useAtom(showGuidesAtom)
   const inputRef = useRef<HTMLInputElement>(null)
 
+  const { x, y } = getXYFromIndex(cell.index)
+
   return (
     <div
-      className={`flex aspect-square cursor-pointer items-center justify-center focus-within:bg-amber-300 ${getBorderClassName(
-        cell.index,
-      )}`}
+      className={clsx(
+        'flex aspect-square cursor-pointer items-center justify-center border-gray-300 focus-within:bg-amber-300',
+        {
+          'border-l': x > 0,
+          'border-t': y > 0,
+          'border-l-2': x !== 0 && x % GRID_SIZE_SQRT === 0,
+          'border-t-2': y !== 0 && y % GRID_SIZE_SQRT === 0,
+        },
+      )}
       onClick={() => {
         inputRef.current?.focus()
       }}
@@ -38,37 +48,20 @@ export function Cell({
         />
       )}
       <span
-        className={`absolute ${!cell.isFixed ? 'font-semibold' : ''} ${
+        className={clsx(
+          'absolute',
           !cell.isFixed &&
-          (showGuides
-            ? cell.isInvalid
-              ? 'text-rose-500'
-              : 'text-teal-500'
-            : 'text-sky-500')
-        }`}
+            'font-semibold' &&
+            (showGuides
+              ? {
+                  'text-rose-500': !cell.isFixed && cell.isInvalid,
+                  'text-teal-500': !cell.isFixed && !cell.isInvalid,
+                }
+              : 'text-sky-500'),
+        )}
       >
         {cell.value === 0 ? '' : cell.value}
       </span>
     </div>
   )
-}
-
-const getBorderClassName = (index: number) => {
-  let className = ''
-  const { x, y } = getXYFromIndex(index)
-
-  if (x > 0) {
-    className += ' border-l border-gray-300'
-  }
-  if (x !== 0 && x % 3 === 0) {
-    className += ' border-l-2'
-  }
-  if (y > 0) {
-    className += ' border-t border-gray-300'
-  }
-  if (y !== 0 && y % 3 === 0) {
-    className += ' border-t-2'
-  }
-
-  return className
 }
