@@ -27,7 +27,13 @@ export function Cell({
       }}
     >
       {!cell.isFixed && (
-        <input className="w-0" type="number" ref={inputRef} title="cell" />
+        <input
+          className="w-0"
+          type="number"
+          ref={inputRef}
+          title="cell"
+          pattern="[0-9]*"
+        />
       )}
       <span
         className={`absolute ${!cell.isFixed ? 'font-semibold' : ''}  ${
