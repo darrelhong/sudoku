@@ -4,19 +4,14 @@ import { useAtom } from 'jotai'
 import { useHydrateAtoms } from 'jotai/utils'
 import { useCallback } from 'react'
 
-import {
-  gameSolvedAtom,
-  gridAtom,
-  gridWithErrorsAtom,
-  updateGridAtom,
-} from '@/utils/game'
+import { gameSolvedAtom, gridAtom, updateGridAtom } from '@/utils/game'
 import { getGridFromPuzzleString, getValueFromKey } from '@/utils/helpers'
 
 import { Cell } from './Cell'
 
 export function Board({ initialPuzzle }: { initialPuzzle: string }) {
   useHydrateAtoms([[gridAtom, getGridFromPuzzleString(initialPuzzle)]])
-  const [grid] = useAtom(gridWithErrorsAtom)
+  const [grid] = useAtom(gridAtom)
   const [_, updateGrid] = useAtom(updateGridAtom)
 
   const handleKeyUp = useCallback(

@@ -25,15 +25,6 @@ export const gridAtom = atom<ICell[]>(
   })),
 )
 
-export const gridWithErrorsAtom = atom((get) => {
-  const grid = get(gridAtom)
-  return grid.map((cell) => ({
-    ...cell,
-    isInvalid:
-      !cell.isFixed && cell.value !== 0 && getCellIsInvalid(cell, grid),
-  }))
-})
-
 export const updateGridAtom = atom(
   null,
   (get, set, { index, value }: { index: number; value: number }) => {
@@ -41,11 +32,23 @@ export const updateGridAtom = atom(
     const cell = grid[index]
     if (cell.isFixed) return
 
-    set(gridAtom, [
+    let newGrid = [
       ...grid.slice(0, index),
       { ...cell, value },
       ...grid.slice(index + 1),
-    ])
+    ]
+
+    newGrid = newGrid.map((cell) => {
+      if (!cell.isFixed && cell.value !== 0) {
+        return {
+          ...cell,
+          isInvalid: getCellIsInvalid(cell, newGrid),
+        }
+      }
+      return cell
+    })
+
+    set(gridAtom, newGrid)
 
     set(gameDirtyAtom, true)
   },
@@ -69,8 +72,13 @@ export const newGameAtom = atom(null, async (get, set, puzzleStr: string) => {
 })
 
 export const gameSolvedAtom = atom((get) => {
-  const gridWithErrors = get(gridWithErrorsAtom)
-  return gridWithErrors.every((cell) => cell.value !== 0 && !cell.isInvalid)
+  const grid = get(gridAtom)
+  return grid.every((cell) => {
+    if (cell.isFixed) {
+      return true
+    }
+    return cell.value !== 0 && !cell.isInvalid
+  })
 })
 
 export const showGuidesAtom = atom(true)
