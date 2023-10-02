@@ -17,7 +17,7 @@ export function PuzzleSelect({
   return (
     <select
       title="Select puzzle"
-      className="mb-4 block rounded-md border border-gray-300 p-1 shadow-sm"
+      className="mb-4 block rounded-md border border-gray-300 p-1 shadow-sm dark:bg-black"
       onChange={(e) => {
         const puzzle = puzzles.find((puzzle) => puzzle.id === e.target.value)
         newGame(puzzle!.puzzle)

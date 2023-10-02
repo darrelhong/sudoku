@@ -11,7 +11,7 @@ export function ShowGuideButton() {
     <button
       type="button"
       onClick={() => setShowGuides((prev) => !prev)}
-      className="mt-2 rounded-md border border-gray-300 bg-white px-1.5 py-0.5 text-sm shadow-sm"
+      className="mt-2 rounded-md border border-gray-300 bg-white px-1.5 py-0.5 text-sm shadow-sm dark:bg-black"
     >
       {showGuides ? 'Hide guides' : 'Show guides'}
     </button>

@@ -37,7 +37,7 @@ export function Board({ initialPuzzle }: { initialPuzzle: string }) {
   )
 
   return (
-    <div className="grid w-full max-w-xl grid-cols-9 overflow-hidden rounded-lg bg-white text-xl shadow-lg sm:text-2xl">
+    <div className="grid w-full max-w-xl grid-cols-9 overflow-hidden rounded-lg bg-white text-xl shadow-lg dark:border dark:border-white dark:bg-black sm:text-2xl">
       {grid.map((cell) => (
         <Cell cell={cell} key={cell.index} handleKeyUp={handleKeyUp} />
       ))}
