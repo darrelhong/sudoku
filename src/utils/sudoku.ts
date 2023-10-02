@@ -1,9 +1,9 @@
-import { GRID_SIZE, GRID_SIZE_SQRT } from './constants'
+import { GRID_SIZE, GRID_SIZE_SQRT, ZERO_VALUE } from './constants'
 import { ICell } from './game'
 import { getXYFromIndex } from './helpers'
 
 export const getCellIsInvalid = (cell: ICell, grid: ICell[]) => {
-  if (cell.value === 0) return false
+  if (cell.value === ZERO_VALUE) return false
   const { index, value } = cell
   const row = getRow(index, grid)
   const col = getColumn(index, grid)

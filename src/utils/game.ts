@@ -1,6 +1,6 @@
 import { atom } from 'jotai'
 
-import { GRID_SIZE } from './constants'
+import { GRID_SIZE, ZERO_VALUE } from './constants'
 import { getGridFromPuzzleString } from './helpers'
 import { getCellIsInvalid } from './sudoku'
 
@@ -19,7 +19,7 @@ export type ICell = {
 
 export const gridAtom = atom<ICell[]>(
   Array.from({ length: GRID_SIZE * GRID_SIZE }, (_, i) => ({
-    value: 0,
+    value: ZERO_VALUE,
     index: i,
     isFixed: false,
   })),
@@ -39,7 +39,7 @@ export const updateGridAtom = atom(
     ]
 
     newGrid = newGrid.map((cell) => {
-      if (!cell.isFixed && cell.value !== 0) {
+      if (!cell.isFixed && cell.value !== ZERO_VALUE) {
         return {
           ...cell,
           isInvalid: getCellIsInvalid(cell, newGrid),
@@ -77,7 +77,7 @@ export const gameSolvedAtom = atom((get) => {
     if (cell.isFixed) {
       return true
     }
-    return cell.value !== 0 && !cell.isInvalid
+    return cell.value !== ZERO_VALUE && !cell.isInvalid
   })
 })
 

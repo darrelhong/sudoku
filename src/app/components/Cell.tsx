@@ -4,7 +4,7 @@ import clsx from 'clsx'
 import { useAtom } from 'jotai'
 import { useRef } from 'react'
 
-import { GRID_SIZE_SQRT } from '@/utils/constants'
+import { GRID_SIZE_SQRT, ZERO_VALUE } from '@/utils/constants'
 import { ICell, showGuidesAtom } from '@/utils/game'
 import { getXYFromIndex } from '@/utils/helpers'
 
@@ -60,7 +60,7 @@ export function Cell({
               : 'text-sky-500'),
         )}
       >
-        {cell.value === 0 ? '' : cell.value}
+        {cell.value === ZERO_VALUE ? '' : cell.value}
       </span>
     </div>
   )
