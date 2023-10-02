@@ -26,7 +26,9 @@ export function Cell({
         handleKeyUp(e, cell.index)
       }}
     >
-      <input className="w-0" type="number" ref={inputRef} title="cell" />
+      {!cell.isFixed && (
+        <input className="w-0" type="number" ref={inputRef} title="cell" />
+      )}
       <span
         className={`absolute ${!cell.isFixed ? 'font-semibold' : ''}  ${
           !cell.isFixed && (cell.isInvalid ? 'text-rose-500' : 'text-teal-500')
