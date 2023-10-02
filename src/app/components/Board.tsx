@@ -2,7 +2,7 @@
 
 import { useAtom } from 'jotai'
 import { useHydrateAtoms } from 'jotai/utils'
-import { useCallback, useEffect } from 'react'
+import { useCallback } from 'react'
 
 import {
   gameSolvedAtom,
@@ -18,13 +18,6 @@ export function Board({ initialPuzzle }: { initialPuzzle: string }) {
   useHydrateAtoms([[gridAtom, getGridFromPuzzleString(initialPuzzle)]])
   const [grid] = useAtom(gridWithErrorsAtom)
   const [_, updateGrid] = useAtom(updateGridAtom)
-  const [solved] = useAtom(gameSolvedAtom)
-
-  useEffect(() => {
-    if (solved) {
-      setTimeout(() => alert('You solved the puzzle!'), 1)
-    }
-  }, [solved])
 
   const handleKeyUp = useCallback(
     (e: React.KeyboardEvent<HTMLDivElement>, index: number) => {

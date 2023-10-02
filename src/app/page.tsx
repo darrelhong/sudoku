@@ -3,6 +3,7 @@ import supabase from '@/utils/supabase'
 import { Board } from './components/Board'
 import { PuzzleSelect } from './components/PuzzleSelect'
 import { ShowGuideButton } from './components/ShowGuideButton'
+import { SuccessDialog } from './components/SuccessDialog'
 
 export const revalidate = 60
 
@@ -27,6 +28,7 @@ export default async function Home() {
       <PuzzleSelect puzzles={puzzles} />
       <Board initialPuzzle={puzzles[0].puzzle} />
       <ShowGuideButton />
+      <SuccessDialog />
     </main>
   )
 }
