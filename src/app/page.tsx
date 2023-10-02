@@ -2,6 +2,7 @@ import supabase from '@/utils/supabase'
 
 import { Board } from './components/Board'
 import { PuzzleSelect } from './components/PuzzleSelect'
+import { ShowGuideButton } from './components/ShowGuideButton'
 
 export const revalidate = 60
 
@@ -25,6 +26,7 @@ export default async function Home() {
     <main className="flex min-h-screen flex-col items-center p-4">
       <PuzzleSelect puzzles={puzzles} />
       <Board initialPuzzle={puzzles[0].puzzle} />
+      <ShowGuideButton />
     </main>
   )
 }

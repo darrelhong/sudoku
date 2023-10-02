@@ -72,3 +72,5 @@ export const gameSolvedAtom = atom((get) => {
   const gridWithErrors = get(gridWithErrorsAtom)
   return gridWithErrors.every((cell) => cell.value !== 0 && !cell.isInvalid)
 })
+
+export const showGuidesAtom = atom(true)

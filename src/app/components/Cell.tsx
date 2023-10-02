@@ -1,8 +1,9 @@
 'use client'
 
+import { useAtom } from 'jotai'
 import { useRef } from 'react'
 
-import { ICell } from '@/utils/game'
+import { ICell, showGuidesAtom } from '@/utils/game'
 import { getXYFromIndex } from '@/utils/helpers'
 
 export function Cell({
@@ -12,6 +13,7 @@ export function Cell({
   cell: ICell
   handleKeyUp: (e: React.KeyboardEvent<HTMLDivElement>, index: number) => void
 }) {
+  const [showGuides] = useAtom(showGuidesAtom)
   const inputRef = useRef<HTMLInputElement>(null)
 
   return (
@@ -36,8 +38,13 @@ export function Cell({
         />
       )}
       <span
-        className={`absolute ${!cell.isFixed ? 'font-semibold' : ''}  ${
-          !cell.isFixed && (cell.isInvalid ? 'text-rose-500' : 'text-teal-500')
+        className={`absolute ${!cell.isFixed ? 'font-semibold' : ''} ${
+          !cell.isFixed &&
+          (showGuides
+            ? cell.isInvalid
+              ? 'text-rose-500'
+              : 'text-teal-500'
+            : 'text-sky-500')
         }`}
       >
         {cell.value === 0 ? '' : cell.value}
