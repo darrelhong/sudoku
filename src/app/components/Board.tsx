@@ -4,7 +4,7 @@ import { useAtom } from 'jotai'
 import { useHydrateAtoms } from 'jotai/utils'
 import { useCallback } from 'react'
 
-import { gameSolvedAtom, gridAtom, updateGridAtom } from '@/utils/game'
+import { gridAtom, updateGridAtom } from '@/utils/game'
 import { getGridFromPuzzleString, getValueFromKey } from '@/utils/helpers'
 
 import { Cell } from './Cell'
