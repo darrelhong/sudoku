@@ -16,7 +16,7 @@ export function Cell({
 
   return (
     <div
-      className={`grid aspect-square cursor-pointer place-items-center focus-within:bg-amber-300 ${getBorderClassName(
+      className={`flex aspect-square cursor-pointer items-center justify-center focus-within:bg-amber-300 ${getBorderClassName(
         cell.index,
       )}`}
       onClick={() => {
