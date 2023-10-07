@@ -1,4 +1,5 @@
 import { atom } from 'jotai'
+import { atomWithStorage } from 'jotai/utils'
 
 import { GRID_SIZE, ZERO_VALUE } from './constants'
 import { getGridFromPuzzleString } from './helpers'
@@ -17,7 +18,8 @@ export type ICell = {
     }
 )
 
-export const gridAtom = atom<ICell[]>(
+export const gridAtom = atomWithStorage<ICell[]>(
+  'grid',
   Array.from({ length: GRID_SIZE * GRID_SIZE }, (_, i) => ({
     value: ZERO_VALUE,
     index: i,
@@ -49,12 +51,13 @@ export const updateGridAtom = atom(
     })
 
     set(gridAtom, newGrid)
-
-    set(gameDirtyAtom, true)
   },
 )
 
-const gameDirtyAtom = atom(false)
+const gameDirtyAtom = atom((get) => {
+  const grid = get(gridAtom)
+  return grid.some((cell) => !cell.isFixed && cell.value !== ZERO_VALUE)
+})
 
 const gameDirtyAndNotSolvedAtom = atom((get) => {
   return get(gameDirtyAtom) && !get(gameSolvedAtom)
@@ -68,7 +71,6 @@ export const newGameAtom = atom(null, async (get, set, puzzleStr: string) => {
     if (!shouldReset) return
   }
   set(gridAtom, getGridFromPuzzleString(puzzleStr))
-  set(gameDirtyAtom, false)
 })
 
 export const gameSolvedAtom = atom((get) => {
