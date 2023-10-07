@@ -3,15 +3,10 @@
 import { useAtom } from 'jotai'
 
 import { newGameAtom } from '@/utils/game'
+import { puzzlesAtom } from '@/utils/puzzles'
 
-export function PuzzleSelect({
-  puzzles,
-}: {
-  puzzles: {
-    id: string
-    puzzle: string
-  }[]
-}) {
+export function PuzzleSelect() {
+  const [puzzles] = useAtom(puzzlesAtom)
   const [_, newGame] = useAtom(newGameAtom)
 
   return (
@@ -19,12 +14,13 @@ export function PuzzleSelect({
       title="Select puzzle"
       className="mb-4 block rounded-md border border-gray-300 p-1 shadow-sm dark:bg-black"
       onChange={(e) => {
-        const puzzle = puzzles.find((puzzle) => puzzle.id === e.target.value)
-        newGame(puzzle!.puzzle)
+        if (Number(e.target.value) === -1) return
+        newGame(puzzles[Number(e.target.value)])
       }}
     >
-      {puzzles.map((puzzle, index) => (
-        <option key={puzzle.id} value={puzzle.id}>
+      <option value={-1}>Select puzzle</option>
+      {puzzles.map((_, index) => (
+        <option key={index} value={index}>
           Puzzle {index + 1}
         </option>
       ))}

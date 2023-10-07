@@ -5,12 +5,11 @@ import { useHydrateAtoms } from 'jotai/utils'
 import { useCallback } from 'react'
 
 import { gridAtom, updateGridAtom } from '@/utils/game'
-import { getGridFromPuzzleString, getValueFromKey } from '@/utils/helpers'
+import { getValueFromKey } from '@/utils/helpers'
 
 import { Cell } from './Cell'
 
-export function Board({ initialPuzzle }: { initialPuzzle: string }) {
-  useHydrateAtoms([[gridAtom, getGridFromPuzzleString(initialPuzzle)]])
+export function Board() {
   const [grid] = useAtom(gridAtom)
   const [_, updateGrid] = useAtom(updateGridAtom)
 
