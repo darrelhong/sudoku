@@ -30,4 +30,8 @@ body {
   .btn {
     @apply rounded-md border border-gray-300 bg-white px-1.5 py-1 shadow-sm dark:bg-black;
   }
+
+  .input {
+    @apply rounded-md border border-gray-300 bg-white px-1.5 py-1 shadow-sm dark:bg-black;
+  }
 }

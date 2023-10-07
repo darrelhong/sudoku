@@ -1,6 +1,7 @@
 'use client'
 
 import { useAtom } from 'jotai'
+import Link from 'next/link'
 
 import { newGameAtom } from '@/utils/game'
 import { puzzlesAtom } from '@/utils/puzzles'
@@ -26,7 +27,9 @@ export function PuzzleSelect() {
           </option>
         ))}
       </select>
-      <button className="btn">Edit</button>
+      <Link href="edit" className="btn">
+        Edit
+      </Link>
     </div>
   )
 }
