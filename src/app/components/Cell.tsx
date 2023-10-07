@@ -50,8 +50,8 @@ export function Cell({
       <span
         className={clsx(
           'absolute',
+          !cell.isFixed && 'font-semibold',
           !cell.isFixed &&
-            'font-semibold' &&
             (showGuides
               ? {
                   'text-rose-500': !cell.isFixed && cell.isInvalid,
