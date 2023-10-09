@@ -15,7 +15,7 @@ export function PuzzleForm() {
     register,
     control,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitSuccessful },
   } = useForm<{
     puzzles: {
       puzzleStr: string
@@ -97,10 +97,11 @@ export function PuzzleForm() {
           Add
         </button>
       </section>
-      <section className="mt-3">
+      <section className="mt-3 flex items-center gap-2">
         <button className="btn" type="submit">
           Save
         </button>
+        {isSubmitSuccessful && <p className="text-teal-500">Saved!</p>}
       </section>
     </form>
   )
